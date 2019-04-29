@@ -14,7 +14,7 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
-    SUBJECT_PREFIX = 'One Minute Pitch'
+    SUBJECT_PREFIX = 'Personal Blog'
     SENDER_EMAIL = 'gumatopricilla22@gmail.com'
 
     # simple mde  configurations

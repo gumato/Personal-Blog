@@ -21,6 +21,18 @@ def index():
 
     return render_template('index.html', title = title)
 
+@main.route('/post/<int:post_id>')
+def post(post_id):
+
+    '''
+    View post page function that returns the post details page and its data
+    '''
+    found_post= get_post(post_id)
+    title = post_id
+    post_comments = Comment.get_comments(post_id)
+
+    return render_template('post.html',title= title ,found_post= found_post, post_comments= post_comments)
+
 
 @main.route('/post/comments/new/<int:id>',methods = ['GET','POST'])
 @login_required
@@ -78,3 +90,22 @@ def view_comments(id):
     '''
     comments = Comment.get_comments(id)
     return render_template('view_comments.html',comments = comments, id=id)
+
+@main.route('/blog/post/new/<int:id>', methods = ['GET','POST'])
+@login_required
+def new_post(id):
+    form = PostForm()
+    movie = get_movie(id)
+    if form.validate_on_submit():
+        title = form.title.data
+        review = form.review.data
+
+        # Updated post instance
+        new_post = Review(blog_id=blog.id,blog_title=title,image_path=blog.poster,blog_post=post,user=current_user)
+
+        # save post method
+        new_post.save_review()
+        return redirect(url_for('.blog',id = blog.id ))
+
+    title = f'{blog.title} post'
+    return render_template('new_post.html',title = title, post_form=form, blog=blog)

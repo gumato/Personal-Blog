@@ -1,0 +1,34 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="{{post.image_path}}" class="img-responsive">
+    </div>
+
+    <div class="col-sm-8">
+      {{format_post|safe}}
+    </div>
+  </div>
+</div>
+{%endblock%}
+<!-- Displaying posts macro -->
+{% macro displayPosts(post_list) %}
+
+    {% for post in post_list %}
+
+    <div class="row">
+
+      <div class="col-xs-2 col-sm-2 col-md-4 col-lg-4">
+        <h4>Author</h4>
+        <p>{{post.user.username}}</p>
+      </div>
+      <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8">
+        <h2> <a href="{{url_for('main.single_post',id=post.id)}}">{{post.blog_title}}</a> </h2>
+      </div>
+    </div>
+
+    {% endfor %}
+{% endmacro %}

@@ -14,7 +14,7 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    title = 'Home - Welcome to The best Pitching Website Online'
+    title = 'Home - Welcome to The best Blogging Website Online'
 
  
     post= post.get_all_posts()
@@ -32,6 +32,33 @@ def post(post_id):
     post_comments = Comment.get_comments(post_id)
 
     return render_template('post.html',title= title ,found_post= found_post, post_comments= post_comments)
+
+@main.route('/blog/post/new/<int:id>', methods = ['GET','POST'])
+@login_required
+def new_post(id):
+    form = PostForm()
+    blog = get_blog(id)
+    if form.validate_on_submit():
+        title = form.title.data
+        post = form.post.data
+
+        # Updated post instance
+        new_post = Post(blog_id=blog.id,blog_title=title,image_path=blog.poster,blog_post=post,user=current_user)
+
+        # save post method
+        new_post.save_review()
+        return redirect(url_for('.blog',id = blog.id ))
+
+    title = f'{blog.title} post'
+    return render_template('new_post.html',title = title, post_form=form, blog=blog)
+
+@main.route('/post/<int:id>')
+def single_post(id):
+    post=Post.query.get(id)
+    if post is None:
+        abort(404)
+    format_post = markdown2.markdown(post.blog_post,extras=["code-friendly", "fenced-code-blocks"])
+    return render_template('post.html',post = post,format_post=format_post)
 
 
 @main.route('/post/comments/new/<int:id>',methods = ['GET','POST'])
@@ -90,22 +117,3 @@ def view_comments(id):
     '''
     comments = Comment.get_comments(id)
     return render_template('view_comments.html',comments = comments, id=id)
-
-@main.route('/blog/post/new/<int:id>', methods = ['GET','POST'])
-@login_required
-def new_post(id):
-    form = PostForm()
-    movie = get_movie(id)
-    if form.validate_on_submit():
-        title = form.title.data
-        review = form.review.data
-
-        # Updated post instance
-        new_post = Review(blog_id=blog.id,blog_title=title,image_path=blog.poster,blog_post=post,user=current_user)
-
-        # save post method
-        new_post.save_review()
-        return redirect(url_for('.blog',id = blog.id ))
-
-    title = f'{blog.title} post'
-    return render_template('new_post.html',title = title, post_form=form, blog=blog)

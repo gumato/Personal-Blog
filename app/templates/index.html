@@ -7,9 +7,52 @@
 {% endblock %}
 
 {% block content %}
+<div class="container" style="background-image: url('')"></div>
+    <div class="row" style="text-align:center; font-size:30px;">
+        <span style="font-size:70px; font-family:'Akronim', cursive; font-style: italic">Welcome to amazing blogs</span>
+    </div>
+    <br>
+<br>
+<br>
+<div class="container">
+<div class="card" style="text-align: center;">
+    <div class="card title">
+        <h3>{{quote_author}}</h3>
+    </div>
+    <div class="card body">
+        {{quote}}
+    </div>
+</div>
+</div>
+    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+        <div class="panel style="style="border: 3px solid #f2f2f2; padding:20px; margin-top:10px;">
+            <p style="font-family: 'Bellefair', serif; font-size:30px;">Write your blog in any of the categories</p>
+    
+              </div>
+    
+    </div>
+    </hr>
+
+<div class="all-blogs">
+        <span style="color:rgb(34, 34, 31);font-size: 30px;">All blogs are displayed </span>
+            <hr>
+            {{macro.displayBlogs(blogs)}}
+    
+    
+    </div> 
+    <div style="text-align:center;">
+            <a href="{{url_for('main.new_blog')}}">
+                <br>
+                <span style="color:violet;(215, 230, 243);">Add a new Blog</span>
+            </a>
+        
+        </div>
+
+
+    <div class="text-center">
 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-    <a href="{{url_for('main.fashion')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
-        <br>
+    <a href="{{url_for('main.fashion')}}" style="font-family: 'Joti One', cursive; font-size:20px; ">
+        <br>:
          Fashion Blogs
     </a>
     <br>
@@ -34,44 +77,6 @@
     </a>
     <br>
 </div>
-<br>
-<br>
-<br>
-<div class="container">
-<div class="card" style="text-align: center;">
-    <div class="card title">
-        <h3>{{quote_author}}</h3>
-    </div>
-    <div class="card body">
-        {{quote}}
-    </div>
 </div>
-</div>
-<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
-    <div class="panel style="style="border: 3px solid #f2f2f2; padding:20px; margin-top:10px;">
-        <p style="font-family: 'Bellefair', serif; font-size:20px;">Write your blog in any of the categories</p>
-
-        <div style="text-align:center;">
-            <a href="{{url_for('main.new_blog')}}">
-                <br>
-                <span style="color:red;" >Add a new Blog</span>
-            </a>
-
-        </div>
-
-    </div>
-
-</div>
-</hr>
-<div class="all-blogs">
-    <span style="color:pink;">All blogs are displayed </span>
-        <hr>
-        {{macro.displayBlogs(blogs)}}
-
-
-</div>
-
-</div>
-
 
 {% endblock %}

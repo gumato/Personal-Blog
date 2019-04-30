@@ -17,9 +17,9 @@ def index():
     disp_quotes = get_quote()
     quote=disp_quotes["quote"]
     quote_author=disp_quotes["author"]
-    # blog= blog.get_all_blogs()
+    blogs= Blog.query.all()
     title = 'Home - Welcome to The best Blogging Website Online'
-    return render_template('index.html', title = title , quote = quote, quote_author = quote_author)
+    return render_template('index.html', title = title , quote = quote, quote_author = quote_author, blogs = blogs)
 
 #this section consist of the category root functions
 

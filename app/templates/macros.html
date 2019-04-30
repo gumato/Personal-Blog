@@ -4,8 +4,8 @@
       <div class="panel style="style="box-shadow: 5px 5px 5px 5px #f2f2f2; padding:10px; text-align:center;">
           <p>{{blog.blog}}</p>
           <br>
-          <a href="{{url_for('main.new_comment',id=pitch.id)}}">Add a Comment</a>
-          <a href="{{url_for('main.view_comments',id=pitch.id)}}">View Comments</a>
+          <a href="{{url_for('main.new_comment',id=blog.id)}}">Add a Comment</a>
+          <a href="{{url_for('main.view_comments',id=blog.id)}}">View Comments</a>
 
       </div>
     {% endfor %}
@@ -34,8 +34,8 @@
     {% if blog.category_id==id%}
         <div class="panel style="style="box-shadow: 5px 5px 5px 5px #f2f2f2; padding:10px;">
             <p>{{blog.blog}}</p>
-            <a href="{{url_for('main.new_comment',id=pitch.id)}}">Add a Comment</a>
-            <a href="{{url_for('main.view_comments',id=pitch.id)}}">View Comments</a>
+            <a href="{{url_for('main.new_comment',id=blog.id)}}">Add a Comment</a>
+            <a href="{{url_for('main.view_comments',id=blog.id)}}">View Comments</a>
 
         </div>
     {% endif%}

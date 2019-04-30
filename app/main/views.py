@@ -1,72 +1,142 @@
 from flask import render_template, request, redirect, url_for, abort
 from . import main
-from .forms import CommentsForm, UpdateProfile, PostForm, 
-from ..models import Comment, Post, User,Role
+from ..requests import get_quote
+from .forms import CommentsForm, UpdateProfile,BlogForm 
+from ..models import Comment, Blog, User,Role
 from flask_login import login_required, current_user
 from .. import db,photos
 
 import markdown2
-
-
 
 @main.route('/')
 def index():
     '''
     View root page function that returns the index page and its data
     '''
+
+    disp_quotes = get_quote()
+    quote=disp_quotes["quote"]
+    quote_author=disp_quotes["author"]
+    # blog= blog.get_all_blogs()
     title = 'Home - Welcome to The best Blogging Website Online'
+    return render_template('index.html', title = title , quote = quote, quote_author = quote_author)
 
- 
-    post= post.get_all_posts()
+#this section consist of the category root functions
 
-    return render_template('index.html', title = title)
+@main.route('/fashion/blogs/')
+def fashion():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Fashion Blogs'
+    return render_template('fashion.html', title = title )
 
-@main.route('/post/<int:post_id>')
-def post(post_id):
+@main.route('/food/blogs/')
+def food():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Food Blogs'
+
+    blogs= Blog.get_all_blogs()
+
+    return render_template('food.html', title = title, blogs= blogs )
+
+@main.route('/travel/blogs/')
+def travel():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Travel Blogs'
+
+    blogs= Blog.get_all_blogs()
+
+    return render_template('travel.html', title = title, blogs= blogs )
+
+@main.route('/music/blogs/')
+def music():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Music Blogs'
+
+    blog= Blog.get_all_blogs()
+
+    return render_template('music.html', title = title, blogs= blogs )
+
+
+@main.route('/lifestyle/blogs/')
+def lifestyle():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    title = 'Lifestyle Blogs'
+    blogs= Blog.get_all_blogs()
+    return render_template('lifestyle.html', title = title, blogs= blogs )
+
+@main.route('/blog/<int:blog_id>')
+def blog(blog_id):
 
     '''
-    View post page function that returns the post details page and its data
+    View blog page function that returns the pitch details page and its data
     '''
-    found_post= get_post(post_id)
-    title = post_id
-    post_comments = Comment.get_comments(post_id)
+    found_blog= get_blog(blog_id)
+    title = blog_id
+    blog_comments = Comment.get_comments(blog_id)
 
-    return render_template('post.html',title= title ,found_post= found_post, post_comments= post_comments)
+    return render_template('blog.html',title= title ,found_blog= found_blog, blog_comments= blog_comments)
 
-@main.route('/blog/post/new/<int:id>', methods = ['GET','POST'])
+@main.route('/search/<blog_name>')
+def search(blog_name):
+    '''
+    View function to display the search results
+    '''
+    searched_blogs = search_blog(blog_name)
+    title = f'search results for {blog_name}'
+
+    return render_template('search.html',blogs = searched_blogs)
+
+@main.route('/blog/new/', methods = ['GET','POST'])
 @login_required
-def new_post(id):
-    form = PostForm()
-    blog = get_blog(id)
+def new_blog():
+    '''
+    Function that creates new 
+    '''
+    form = BlogForm()
+
+
+    if category is None:
+        abort( 404 )
+
     if form.validate_on_submit():
-        title = form.title.data
-        post = form.post.data
+        blog= form.content.data
+        category_id = form.category_id.data
+        new_blog= Blog(blog= blog, category_id= category_id)
 
-        # Updated post instance
-        new_post = Post(blog_id=blog.id,blog_title=title,image_path=blog.poster,blog_post=post,user=current_user)
+        new_blog.save_blog()
+        return redirect(url_for('main.index'))
 
-        # save post method
-        new_post.save_review()
-        return redirect(url_for('.blog',id = blog.id ))
+    return render_template('new_blog.html', new_blog_form= form, category= category)
 
-    title = f'{blog.title} post'
-    return render_template('new_post.html',title = title, post_form=form, blog=blog)
+@main.route('/category/<int:id>')
+def category(id):
+    '''
+    function that returns pitches based on the entered category id
+    '''
+    category = BlogCategory.query.get(id)
 
-@main.route('/post/<int:id>')
-def single_post(id):
-    post=Post.query.get(id)
-    if post is None:
+    if category is None:
         abort(404)
-    format_post = markdown2.markdown(post.blog_post,extras=["code-friendly", "fenced-code-blocks"])
-    return render_template('post.html',post = post,format_post=format_post)
 
+    blogs_in_category = Blogs.get_blog(id)
+    return render_template('category.html' ,category= category, blogs= blogs_in_category)
 
-@main.route('/post/comments/new/<int:id>',methods = ['GET','POST'])
+@main.route('/blog/comments/new/<int:id>',methods = ['GET','POST'])
 @login_required
 def new_comment(id):
     form = CommentsForm()
     if form.validate_on_submit():
-        new_comment = Comment(post_id =id,comment=form.comment.data,username=current_user.username)
+        new_comment = Comment(blog_id =id,comment=form.comment.data,username=current_user.username)
         new_comment.save_comment()
         return redirect(url_for('main.index'))
     return render_template('new_comment.html',comment_form=form)
@@ -113,7 +183,7 @@ def update_profile(uname):
 @main.route('/view/comment/<int:id>')
 def view_comments(id):
     '''
-    Function that returs  the comments belonging to a particular pitch
+    Function that returs  the comments belonging to a particular blog
     '''
     comments = Comment.get_comments(id)
     return render_template('view_comments.html',comments = comments, id=id)

@@ -5,7 +5,7 @@ class Config:
     General configuration parent class
     '''
     SECRET_KEY = 'gumeshi1'
-    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:gume@localhost/bolg'
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:1234@localhost/bolg'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
 
     # email configurations
@@ -14,15 +14,15 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
-    SUBJECT_PREFIX = 'Personal Blog'
-    SENDER_EMAIL = 'gumatopricilla22@gmail.com'
+    # SUBJECT_PREFIX = 'Personal Blog'
+    # SENDER_EMAIL = 'gumatopricilla22@gmail.com'
 
     # simple mde  configurations
     SIMPLEMDE_JS_IIFE = True
     SIMPLEMDE_USE_CDN = True
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:gume@localhost/blog_test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:1234@localhost/blog_test'
 
 class ProdConfig(Config):
     '''
@@ -39,7 +39,7 @@ class DevConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:gume@localhost/pitch'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:1234@localhost/pitch'
 
 
     DEBUG = True

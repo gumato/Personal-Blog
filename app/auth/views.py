@@ -34,7 +34,7 @@ def register():
 
 
         return redirect(url_for('auth.login'))
-        title = "New Account"
+        title = "Welcome to my Blog"
     return render_template('auth/register.html',registration_form = form)
 
 @auth.route('/logout')

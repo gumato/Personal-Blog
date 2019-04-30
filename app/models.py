@@ -20,7 +20,7 @@ class User(UserMixin, db.Model):
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
-    post = db.relationship('Post',backref = 'users',lazy="dynamic")
+    blog = db.relationship('Blog',backref = 'users',lazy="dynamic")
 
     def save_comment(self):
         db.session.add(self)
@@ -28,7 +28,7 @@ class User(UserMixin, db.Model):
 
     @classmethod
     def get_comments(cls,id):
-        reviews = Comment.query.filter_by(post_id=id).all()
+        reviews = Comment.query.filter_by(blog_id=id).all()
         return comments
 
     @property
@@ -45,40 +45,60 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
-class Post(db.Model):
+class Blog(db.Model):
     '''
-    Post class to define Post Objects
+     class to define Blog Objects
     '''
-    __tablename__ = 'post'
+    __tablename__ = 'blog'
 
     id = db.Column(db.Integer,primary_key = True)
-    post = db.Column(db.String)
+    blog = db.Column(db.String)
     category_id = db.Column(db.Integer)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-    comments = db.relationship('Comment',backref = 'post',lazy="dynamic")
+    comments = db.relationship('Comment',backref = 'blog',lazy="dynamic")
 
 
-    def save_post(self):
+    def save_blog(self):
         '''
-        Function that saves posts
+        Function that saves blogs
         '''
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def get_all_posts(cls):
+    def get_all_blogs(cls):
         '''
-        Function that queries the databse and returns all the posts
+        Function that queries the databse and returns all the blogs
         '''
-        return Post.query.all()
+        return Blog.query.all()
 
     @classmethod
-    def get_posts_by_category(cls,cat_id):
+    def get_blogs_by_category(cls,cat_id):
         '''
-        Function that queries the databse and returns posts based on the
+        Function that queries the databse and returns blogs based on the
         category passed to it
         '''
-        return Posts.query.filter_by(category_id= cat_id)
+        return Blogs.query.filter_by(category_id= cat_id)
+
+
+class BlogCategory(db.Model):
+    '''
+    Function that defines different categories of blogs
+    '''
+    __tablename__ ='blog_categories'
+
+
+    id = db.Column(db.Integer, primary_key=True)
+    name_of_category = db.Column(db.String(255))
+    category_description = db.Column(db.String(255))
+
+    @classmethod
+    def get_categories(cls):
+        '''
+        This function fetches all the categories from the database
+        '''
+        categories = BlogCategory.query.all()
+        return categories
 
 
 
@@ -88,7 +108,7 @@ class Comment(db.Model):
 
     id = db.Column(db.Integer,primary_key = True)
     comment= db.Column(db.String)
-    post_id = db.Column(db.Integer,db.ForeignKey('post.id'))
+    blog_id = db.Column(db.Integer,db.ForeignKey('blog.id'))
     username =  db.Column(db.String)
 
 
@@ -105,7 +125,7 @@ class Comment(db.Model):
 
     @classmethod
     def get_comments(cls,id):
-        comments = Comment.query.filter_by(post_id=id).all()
+        comments = Comment.query.filter_by(blog_id=id).all()
 
         return comments
 

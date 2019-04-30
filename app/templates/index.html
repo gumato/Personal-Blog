@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+    <a href="{{url_for('main.fashion')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+        <br>
+         Fashion Blogs
+    </a>
+    <br>
+    <a href="{{url_for('main.food')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+        <br>
+           Food Blogs
+    </a>
+    <br>
+    <a href="{{url_for('main.travel')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+        <br>
+        Travel Blogs
+    </a>
+    <br>
+    <a href="{{url_for('main.music')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+        <br>
+        Music Blogs
+    </a>
+    <br>
+    <a href="{{url_for('main.lifestyle')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
+        <br>
+        Lifestyle Blogs
+    </a>
+    <br>
+</div>
 <br>
 <br>
 <br>
@@ -12,5 +39,12 @@
         {{quote}}
     </div>
 </div>
+</div>
+<div style="text-align:center;">
+    <a href="{{url_for('main.new_blog')}}">
+        <br>
+       <button><span style="color:red;" >Add a new Blog</span></button>
+    </a>
+
 </div>
 {%endblock%}

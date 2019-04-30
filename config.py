@@ -5,7 +5,7 @@ class Config:
     General configuration parent class
     '''
     SECRET_KEY = 'gumeshi1'
-    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:1234@localhost/bolg'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://pricilla:1234@localhost/blog'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
 
     # email configurations

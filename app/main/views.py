@@ -23,15 +23,15 @@ def index():
 
 #this section consist of the category root functions
 
-@main.route('/fashion/blogs/')
+@main.route('/fashion')
 def fashion():
     '''
     View root page function that returns the index page and its data
     '''
-    title = 'Fashion Blogs'
+    title = 'Fashion'
     return render_template('fashion.html', title = title )
 
-@main.route('/food/blogs/')
+@main.route('/food')
 def food():
     '''
     View root page function that returns the index page and its data
@@ -42,7 +42,7 @@ def food():
 
     return render_template('food.html', title = title, blogs= blogs )
 
-@main.route('/travel/blogs/')
+@main.route('/travel')
 def travel():
     '''
     View root page function that returns the index page and its data
@@ -53,7 +53,7 @@ def travel():
 
     return render_template('travel.html', title = title, blogs= blogs )
 
-@main.route('/music/blogs/')
+@main.route('/music')
 def music():
     '''
     View root page function that returns the index page and its data
@@ -65,7 +65,7 @@ def music():
     return render_template('music.html', title = title, blogs= blogs )
 
 
-@main.route('/lifestyle/blogs/')
+@main.route('/lifestyle')
 def lifestyle():
     '''
     View root page function that returns the index page and its data
@@ -116,7 +116,7 @@ def new_blog():
         new_blog.save_blog()
         return redirect(url_for('main.index'))
 
-    return render_template('new_blog.html', new_blog_form= form, category= category)
+    return render_template('new_blog.html', new_blog_form= form , category= category)
 
 @main.route('/category/<int:id>')
 def category(id):

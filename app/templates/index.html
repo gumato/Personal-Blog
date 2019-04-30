@@ -1,4 +1,11 @@
-{% extends "base.html" %}
+{% extends 'base.html'%}
+{% import 'macros.html' as macro%}
+
+{% block styles%}
+{{ super() }}
+<link href="https://fonts.googleapis.com/css?family=Akronim|Bellefair|Joti+One" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
     <a href="{{url_for('main.fashion')}}" style="font-family: 'Joti One', cursive; font-size:20px;">
@@ -40,11 +47,31 @@
     </div>
 </div>
 </div>
-<div style="text-align:center;">
-    <a href="{{url_for('main.new_blog')}}">
-        <br>
-       <button><span style="color:red;" >Add a new Blog</span></button>
-    </a>
+<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+    <div class="panel style="style="border: 3px solid #f2f2f2; padding:20px; margin-top:10px;">
+        <p style="font-family: 'Bellefair', serif; font-size:20px;">Write your blog in any of the categories</p>
+
+        <div style="text-align:center;">
+            <a href="{{url_for('main.new_blog')}}">
+                <br>
+                <span style="color:red;" >Add a new Blog</span>
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
-{%endblock%}
+</hr>
+<div class="all-blogs">
+    <span style="color:pink;">All blogs are displayed </span>
+        <hr>
+        {{macro.displayBlogs(blogs)}}
+
+
+</div>
+
+</div>
+
+
+{% endblock %}

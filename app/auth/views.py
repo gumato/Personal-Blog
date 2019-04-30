@@ -1,4 +1,4 @@
-from flask import render_template,url_for,flash,request
+from flask import render_template,url_for,flash,request,redirect
 from . import auth
 from flask_login import login_user,logout_user,login_required
 from ..models import User
